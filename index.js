@@ -12,34 +12,50 @@ console.log('its working');
 (d) Away Team goals for 2014 world cup final
 (e) Winner of 2014 world cup final */
 
-
+const soccerCup = fifaData.filter(function(value){
+    return value["Year"] === 2014;
+} );
+console.log (soccerCup);
 /* Task 2: Create a function called  getFinals that takes `data` as an argument and returns an array of objects with only finals data */
 
-function getFinals(/* code here */) {
-
-    /* code here */
-
+function getFinals(data) {
+   
+    return data
+ 
 };
+console.log(getFinals(fifaData));
 
 /* Task 3: Implement a higher-order function called `getYears` that accepts the callback function `getFinals`, and returns an array called `years` containing all of the years in the dataset */
 
-function getYears(/* code here */) {
-
-    /* code here */
-
+function getYears(cb) {
+   
+ let years = cb.map(function getFinals (value){
+    return value["Year"];
+ }) ;
+   
+    
+ return years;
+    
 };
-
-getYears();
+console.log(getYears(getFinals(fifaData)));
 
 /* Task 5: Implement a higher-order function called `getWinners`, that accepts the callback function `getFinals()` and determine the winner (home or away) of each `finals` game. Return the name of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
+function getWinners(cb) {
+     
+ let winners=[];
+   
+   cb.forEach(element => {
+     if (element["Home Team Goals"]> element["Away Team Goals"]) {
+         return winners.push(element["Home Team Name"]);
+     } else {
+        return winners.push(element["Away Team Name"]);
+     }
+ });
+  return winners
+}
 
-    /* code here */
-
-};
-
-getWinners();
+console.log(getWinners(getFinals(fifaData)));
 
 /* Task 6: Implement a higher-order function called `getWinnersByYear` that accepts the following parameters and returns a set of strings "In {year}, {country} won the world cup!" 
 
@@ -48,21 +64,42 @@ Parameters:
  * callback function getYears
  */
 
-function getWinnersByYear(/* code here */) {
+function getWinnersByYear(cb,cB) {
+
+let Years = cb.map(function (date) { 
+    return date;
+}); 
+
+let Winners = cB.map(function (win) {
+  return win;
+});
+ 
+    return `In ${Years},${Winners} won the world cup!`
+
+
 
 };
 
-getWinnersByYear();
+console.log(getWinnersByYear(getYears(getFinals(fifaData)), getWinners(getFinals(fifaData))));
 
 /* Task 7: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
 
-function getAverageGoals(/* code here */) {
+function getAverageGoals(data) {
+    let homeGoals= [];
+     let awayGoals=[];
+    
+   data.forEach(element => {
+    if (element["Home Team Goals"]) {
+        return homeGoals.push(element["Home Team goals"]);
+    } else {
+       return awayGoals.push(element["Away Team Goals"]);
+    };
+   });
+    const average= (accumulator, currentValue) => accumulator + currentValue;
+  return  homeGoals.reduce(average,0) && awayGoals.reduce(average,0);
+}
 
-    /* code here */
-
-};
-
-getAverageGoals();
+console.log(getAverageGoals(fifaData));
 
 /// STRETCH 🥅 //
 
